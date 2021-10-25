@@ -1,2 +1,2 @@
-bot_token = '1955535547:AAEAgkUjxeaw5zfZkBQWOy8SKsfBo3zSdDQ'
-WET_KEY ='2e02bca012aba41d799f0b7bc80733c1' 
+bot_token = ''
+WET_KEY ='' 
