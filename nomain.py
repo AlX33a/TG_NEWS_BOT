@@ -7,60 +7,7 @@ from keys import bot_token
 #Initilizing
 Database.start()
 bot = telebot.TeleBot(bot_token)
-
-def func1(message):
-    global n
-    user_id = message.chat.id
-
-    if message.text == 'services':
-        Tools.services(message)
-        n = 1
-    elif message.text == 'my news':
-        Tools.my_news_message(message, user_id)
-        n = 0
-    elif message.text == 'set my news':
-        Tools.news_set_first(message, user_id)
-        n = 2
-
-def func2(message):
-    global n
-    if message.text == '🌤 Погода 🌩':
-        Tools.weather(message)
-    elif message.text == '📰 Новости 📦':
-        Tools.news(message)
-    elif message.text == '💰 Крипто 🪙':
-        Tools.cripto(message)
-    elif message.text == '◀️':
-            Tools.base_message(message)
-            n = 0
-    else:Tools.eror_message(message)
-
-def func3(message):
-    global n
-    user_id = message.chat.id
-
-    if message.text == '🌤 Погода 🌩 ➕':
-        Database.any_update(user_id, 'weather', '1')
-        Tools.news_set(message, user_id)
-    elif message.text == '🌤 Погода 🌩 ✅':
-        Database.any_update(user_id, 'weather', '0')
-        Tools.news_set(message, user_id)
-    elif message.text == '📰 Новости 📦 ➕':
-        Database.any_update(user_id, 'news', '1')
-        Tools.news_set(message, user_id)
-    elif message.text == '📰 Новости 📦 ✅':
-        Database.any_update(user_id, 'news', '0')
-        Tools.news_set(message, user_id)
-    elif message.text == '💰 Крипто 🪙 ➕':
-        Database.any_update(user_id, 'cripto', '1')
-        Tools.news_set(message, user_id)
-    elif message.text == '💰 Крипто 🪙 ✅':
-        Database.any_update(user_id, 'cripto', '0')
-        Tools.news_set(message, user_id)
-    elif message.text == '◀️':
-            Tools.base_message(message)
-            n = 0
-    else:Tools.eror_message(message)
+n = 0
 
 
 @bot.message_handler(commands=['start'])
@@ -80,12 +27,52 @@ def help(message):
 @bot.message_handler(content_types=['text'])
 def answer(message):
     global n
-    func1(message)
+    user_id = message.chat.id
 
-    if n == 1:
-        func2(message)
+    if n == 0:
+        if message.text == 'services':
+            Tools.services(message)
+            n = 1
+        elif message.text == 'my news':
+            Tools.my_news_message(message, user_id)
+        elif message.text == 'set my news':
+            Tools.news_set_first(message, user_id)
+            n = 2
+        else: Tools.eror_message(message)
+    elif n == 1:
+        if message.text == '🌤 Погода 🌩':
+            Tools.weather(message)
+        elif message.text == '📰 Новости 📦':
+            Tools.news(message)
+        elif message.text == '💰 Крипто 🪙':
+            Tools.cripto(message)
+        elif message.text == '◀️':
+            Tools.base_message(message)
+            n = 0
+        else: Tools.eror_message(message)
     elif n == 2:
-        func3(message)
+        if message.text == '🌤 Погода 🌩 ➕':
+            Database.any_update(user_id, 'weather', '1')
+            Tools.news_set(message, user_id)
+        elif message.text == '🌤 Погода 🌩 ✅':
+            Database.any_update(user_id, 'weather', '0')
+            Tools.news_set(message, user_id)
+        elif message.text == '📰 Новости 📦 ➕':
+            Database.any_update(user_id, 'news', '1')
+            Tools.news_set(message, user_id)
+        elif message.text == '📰 Новости 📦 ✅':
+            Database.any_update(user_id, 'news', '0')
+            Tools.news_set(message, user_id)
+        elif message.text == '💰 Крипто 🪙 ➕':
+            Database.any_update(user_id, 'cripto', '1')
+            Tools.news_set(message, user_id)
+        elif message.text == '💰 Крипто 🪙 ✅':
+            Database.any_update(user_id, 'cripto', '0')
+            Tools.news_set(message, user_id)
+        elif message.text == '◀️':
+            Tools.base_message(message)
+            n = 0
+        else: Tools.eror_message(message)
 
 
 if __name__ == '__main__':
